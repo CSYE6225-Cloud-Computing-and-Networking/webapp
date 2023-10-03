@@ -4,7 +4,7 @@
   "description": "cloud native application",
   "main": "index.js",
   "scripts": {
-    "test": "node run test.js",
+    "test": "mocha",
     "dev": "nodemon index.js"
   },
   "author": "",
@@ -15,7 +15,9 @@
     "nodemon": "^3.0.1"
   },
   "dependencies": {
+    "@types/chai": "^4.3.6",
     "@types/joi": "^17.2.3",
+    "@types/mocha": "^10.0.2",
     "bcrypt": "^5.1.1",
     "chai": "^4.3.10",
     "joi": "^17.10.2",
