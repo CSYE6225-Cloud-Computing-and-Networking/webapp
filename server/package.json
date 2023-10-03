@@ -4,7 +4,7 @@
   "description": "cloud native application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node run test.js",
     "dev": "nodemon index.js"
   },
   "author": "",
@@ -17,7 +17,9 @@
   "dependencies": {
     "@types/joi": "^17.2.3",
     "bcrypt": "^5.1.1",
+    "chai": "^4.3.10",
     "joi": "^17.10.2",
+    "mocha": "^10.2.0",
     "mysql2": "^3.6.1",
     "sequelize": "^6.33.0"
   }
