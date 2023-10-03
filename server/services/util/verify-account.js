@@ -8,7 +8,14 @@ export const verifyToken= async(req, res, next)=> {
         return res.status(401).json({ message: 'No token provided' });
     }  
 
-    let [email, password] = token.split(' ')
+    let bufferObj = Buffer.from(token, "base64");
+  
+    // Encode the Buffer as a utf8 string
+    let decodedString = bufferObj.toString("utf8");
+    
+    console.log("The decoded string:", decodedString);
+
+    let [email, password] = decodedString.split(' ')
 
     // console.log('token2----------',email,password)
 
@@ -29,8 +36,7 @@ export const verifyToken= async(req, res, next)=> {
         return res.status(401).json({ message: 'Invalid token' });
     }
 
-    req.account.email = account.dataValues.email
-    req.account.id = account.dataValues.id
+    req.account = account.dataValues
 
     next();
 }
