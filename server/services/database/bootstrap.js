@@ -9,8 +9,8 @@ sequelize.sync()
 let user = {
   "first_name":"Test",
   "last_name": "Demo",
-  "password":"pass",
-  "email":"email@.com"
+  "password":"password",
+  "email":"test@email.com"
 }
 
 let user_add = async()=>{
@@ -29,8 +29,6 @@ let user_add = async()=>{
 			return {"message":"error while saving user details","status":400}
 		}
 
-		// await query(`insert into users (first_name, last_name, username, password, account_created, account_updated) 
-		// values('${user.first_name}','${user.last_name}','${user.username}','${hash}','${account_created}','${account_updated}');`,'');
 		const new_count = await Account.create({
 			id: account_updated,
 			first_name: user.first_name,
