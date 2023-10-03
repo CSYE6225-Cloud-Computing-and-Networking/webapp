@@ -8,7 +8,8 @@ export const create = async(req,res)=>{
 
     try{
         let req_body = req.body 
-        let savedAssignment = await assignmentService.save(req_body)
+        let account_id = 1;
+        let savedAssignment = await assignmentService.save(req_body,account_id)
         setResponse(savedAssignment, res, savedAssignment.status)
     }
     catch(err){
@@ -46,7 +47,8 @@ export const del = async (req,res)=>{
     console.log('assignment id to delete',id)
 
     try{
-        let assignment  =  await assignmentService.del(id,user.id)
+        let account_id = 1;
+        let assignment  =  await assignmentService.del(id, account_id)
         setResponse(assignment, res)
     }
     catch(err){

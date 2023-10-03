@@ -2,7 +2,7 @@ import Assignment from "../models/Assignment.js";
 import assignmentSchema from "./validations/assignment-validation.js";
 import AccountAssignmentMap from "../models/Account-Assignment-Map.js";
 
-export const save = async (assignment)=>{
+export const save = async (assignment, account_id)=>{
 
     let account_created = Date.now()
     let account_updated = Date.now()
@@ -18,7 +18,6 @@ export const save = async (assignment)=>{
             console.log('Data is valid:', validationResult.value);
           }
 
-        let user_id =1;
         const new_assignment = await Assignment.create({
             id: account_updated,
             name: assignment.name,
@@ -31,7 +30,7 @@ export const save = async (assignment)=>{
 
           
           const acc_assign_map = await await AccountAssignmentMap.create({
-            account: user_id,
+            account: account_id,
             assignment: new_assignment.id
           });
         
@@ -69,18 +68,25 @@ export const get = async(id)=>{
     }
 }
 
-export const del = async(id,userId)=>{
+export const del = async(id, account_id)=>{
 
     try{
-        if(id!==userId){
-            return {"message":"Forbidden", "status":403}
+
+        const assignment = await Assignment.findByPk(id);
+        
+        if (assignment === null) {
+            return {"message":"No Assignment found"}
         }
 
-        const product = await Assignment.findByPk(id);
-        
-        if (product === null) {
-            return {"message":"No Product found"}
-        }
+        const assignment_account_id = await AccountAssignmentMap.findOne({ where: { assignment: id } })
+
+        console.log('assignemnt acc map', assignment_account_id)
+
+
+        // if(id!==userId){
+        //     return {"message":"Forbidden", "status":403}
+        // }
+
 
         await Assignment.destroy({
             where: {
@@ -88,10 +94,10 @@ export const del = async(id,userId)=>{
             }
         });
 
-        return {"message":"Product deleted"}
+        return {"message":"Assignment deleted", "status":200}
     }
     catch(err){
-        console.log('Error while retreiving data',err)
+        console.log('Error while removing data',err)
     }
 
 }
