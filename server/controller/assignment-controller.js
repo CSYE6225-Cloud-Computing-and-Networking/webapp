@@ -42,7 +42,7 @@ export const get = async (req,res)=>{
 
 export const del = async (req,res)=>{
     let id = req.params.id
-    let user = req.user
+    let account = req.account
     
     console.log('assignment id to delete',id)
 
