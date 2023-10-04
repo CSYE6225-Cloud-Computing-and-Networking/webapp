@@ -35,6 +35,8 @@ const Assignment = sequelize.define('Assignment', {
         type: DataTypes.STRING
     }
       
+  }, {
+    timestamps: false,
   });
   
   export default Assignment;

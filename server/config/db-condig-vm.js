@@ -1,12 +1,4 @@
 const database_config = {
-    host : "localhost",
-    user : "root",
-    password : "mysql",
-    dialect :"mysql",
-    database: "cloudDB"
-}
-
-const database_config2 = {
     host : "127.0.0.1",
     user : "user1",
     password : "password1",
