@@ -8,10 +8,7 @@ export const create = async(req,res)=>{
 
     try{
         let req_body = req.body 
-
         let account = req.account
-        let account_id = account.id;
-        console.log('account id',account_id)
         let savedAssignment = await assignmentService.save(req_body, account.id)
         setResponse(savedAssignment, res, savedAssignment.status)
     }
@@ -33,10 +30,9 @@ export const list = async(req,res)=>{
 
 export const get = async (req,res)=>{
     let id = req.params.id
-    console.log('assignment id',id)
     try{
         let assignment  =  await assignmentService.get(id)
-        setResponse(assignment, res)
+        setResponse(assignment, res, assignment.status)
     }
     catch(err){
         setError(err,res)
@@ -46,44 +42,26 @@ export const get = async (req,res)=>{
 export const del = async (req,res)=>{
     let id = req.params.id
     let account = req.account
-    
-    console.log('assignment id to delete',id)
 
     try{
-        let account_id = 1;
-        let assignment  =  await assignmentService.del(id, account_id)
-        setResponse(assignment, res)
+        let assignment  =  await assignmentService.del(id, account.id)
+        setResponse(assignment, res, assignment.status)
     }
     catch(err){
         setError(err,res)
     }
 }
 
-
-
-
-
-export const l = async(req,res)=>{
+export const update = async (req,res)=>{
+    let req_body = req.body 
+    let id = req.params.id
+    let account = req.account
 
     try{
-        let data = req.body;
-        let par = req.query;
-
-        if(Object.keys(par).length !=0 || Object.keys(data).length !=0 ){
-            res.set('Cache-control', `no-store`)
-            res.status(400)
-            res.send()
-        }
-        else{
-            await sequelize.authenticate()
-            res.set('Cache-control', `no-store`)
-            res.status(200)
-            res.send()
-        }
+        let assignment  =  await assignmentService.update(id, account.id, req_body)
+        setResponse(assignment, res, assignment.status)
     }
     catch(err){
-        res.set('Cache-control', `no-store`)
-        res.status(503)
-        res.send()
+        setError(err,res)
     }
-}   
+}

@@ -7,7 +7,7 @@ router.get('/v1/assignment', assignmentController.list);
 router.get('/v1/assignment/:id', assignmentController.get )
 
 router.post('/v1/assignment', verifyToken, assignmentController.create);
-router.put('/v1/assignment/:id', assignmentController.create)
+router.put('/v1/assignment/:id', verifyToken, assignmentController.update)
 router.delete('/v1/assignment/:id', verifyToken, assignmentController.del)
 
 export default router

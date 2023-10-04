@@ -53,7 +53,7 @@ export const get = async(id)=>{
         const assignment = await Assignment.findOne({ where: { id: id } });
         
         if(!assignment){
-            return {"message":"No Assignment found"}
+            return {"message":"No Assignment found", "status":204}
         }
 
         return {
@@ -71,26 +71,28 @@ export const get = async(id)=>{
 export const del = async(id, account_id)=>{
 
     try{
-
         const assignment = await Assignment.findByPk(id);
         
         if (!assignment) {
-            return {"message":"No Assignment found"}
+            return {"message":"No Assignment found","status":204}
         }
 
-        const assignment_account_id = await AccountAssignmentMap.findOne({ where: { assignment: id } })
+        const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
+        console.log('assignemnt acc map', acc_assign_map)
 
-        console.log('assignemnt acc map', assignment_account_id)
-
-
-        // if(id!==userId){
-        //     return {"message":"Forbidden", "status":403}
-        // }
-
+        if(account_id!==acc_assign_map.dataValues.account){
+            return {"message":"Forbidden", "status":403}
+        }
 
         await Assignment.destroy({
             where: {
               id: id
+            }
+        });
+
+        await AccountAssignmentMap.destroy({
+            where: {
+              id: acc_assign_map.dataValues.id
             }
         });
 
@@ -99,5 +101,48 @@ export const del = async(id, account_id)=>{
     catch(err){
         console.log('Error while removing data',err)
     }
+}
 
+export const update = async(id, account_id, req)=>{
+
+    try{
+        const validationResult = assignmentSchema.validate(req);
+
+        if (validationResult.error) {
+            console.log(validationResult.error.details);
+            return {"message":"Validation Error, send valid request", "status":400}
+        } 
+
+        const assignment = await Assignment.findByPk(id);
+        
+        if (!assignment) {
+            return {"message":"No Assignment found","status":204}
+        }
+
+        const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
+        console.log('assignemnt acc map', acc_assign_map)
+
+        if(account_id!==acc_assign_map.dataValues.account){
+            return {"message":"Forbidden", "status":403}
+        }
+
+        let account_updated = new Date();
+        const updated_assignment = await Assignment.update(
+            {
+                name: req.name,
+                points: req.points,
+                num_of_attemps: req.num_of_attemps,
+                deadline: req.deadline,
+                assignment_updated: account_updated.toISOString()
+            },
+            {
+              where: { id: assignment.id },
+            }
+        );
+
+        return {"message":"Assignment updated", "status":200}
+    }
+    catch(err){
+        console.log('Error while updating data',err)
+    }
 }
