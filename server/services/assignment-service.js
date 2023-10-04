@@ -24,8 +24,8 @@ export const save = async (assignment, account_id)=>{
             points: assignment.points,
             num_of_attemps: assignment.num_of_attemps,
             deadline: assignment.deadline,
-            assignment_created: account_created,
-            assignment_updated: account_updated
+            assignment_created: account_created.toISOString(),
+            assignment_updated: account_updated.toISOString()
           });
 
           

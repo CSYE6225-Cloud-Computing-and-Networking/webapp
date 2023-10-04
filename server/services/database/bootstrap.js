@@ -13,13 +13,17 @@ let user = {
   "email":"test@email.com"
 }
 
-let user_add = async()=>{
+export let data_base_setup = ()=>{
+
+}
+
+export let user_add = async()=>{
   const account_exists = await Account.findOne({ where: { email: user.email } });
   let account_created = Date.now()
   let account_updated = Date.now()
   
   if(account_exists){
-	console.log('account exsists')
+	console.log('account exsists ')
   }
   else{
 
@@ -35,17 +39,12 @@ let user_add = async()=>{
 			last_name: user.last_name,
 			password: hash,
 			email: user.email,
-			assignment_created: account_created,
-			assignment_updated: account_updated
+			assignment_created: account_created.toISOString(),
+			assignment_updated: account_updated.toISOString()
 		  });
 		  console.log('new account created')
-
-
 	}); 
-	
-	
   }
-
 }
 
 try{

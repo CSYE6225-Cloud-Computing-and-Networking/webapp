@@ -1,7 +1,16 @@
 import express from "express";
-
+import { sequelize } from "./services/database/db.js";
 import route from './routes/index.js'
+import { user_add } from "./services/database/bootstrap.js";
 
+//Bootstrap
+try{
+  sequelize.sync();
+  user_add;
+}
+catch(err){
+  console.log("Bootstap error")
+}
 
 let PORT = 8000
 let app = express()
