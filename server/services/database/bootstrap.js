@@ -3,24 +3,39 @@ import bcrypt from "bcrypt";
 import Assignment from "../../models/Assignment.js";
 import Account from "../../models/Account.js";
 import AccountAssignmentMap from "../../models/Account-Assignment-Map.js";
+import * as fs from "fs";
+import csv from 'csv-parser';
+
+const filePath = 'C:\\cloud\\cloup_app_assignment_2\\webapp\\config\\users.csv';
 
 sequelize.sync()
+let users = []
 
-let user = {
-  "first_name":"Test",
-  "last_name": "Demo",
-  "password":"password",
-  "email":"test@email.com"
+export let user_details= async()=>
+{
+	try{
+		fs.createReadStream(filePath).pipe(csv()).on('data', async(data) => {
+			users.push(data);
+			await user_add(data)
+	  })
+	  .on('end', () => {
+		// console.log(users);
+	  })
+	  .on('error', (error) => {
+		console.error('Error while parsing CSV:', error);
+	  });
+	}
+	catch(err){
+		console.log("start up error")
+	}
+	
+ 
 }
 
-export let data_base_setup = ()=>{
-
-}
-
-export let user_add = async()=>{
+export let user_add = async(user)=>{
   const account_exists = await Account.findOne({ where: { email: user.email } });
-  let account_created = Date.now()
-  let account_updated = Date.now()
+  let account_created = new Date()
+  let account_updated = new Date()
   
   if(account_exists){
 	console.log('account exsists ')
@@ -34,7 +49,7 @@ export let user_add = async()=>{
 		}
 
 		const new_count = await Account.create({
-			id: account_updated,
+			id: Date.now(),
 			first_name: user.first_name,
 			last_name: user.last_name,
 			password: hash,
@@ -47,10 +62,12 @@ export let user_add = async()=>{
   }
 }
 
-try{
-	user_add()
-}
-catch(err){
-	console.log('error in bootstrap')
-}
+// try{
+// 	// user_add()
+// 	user_details()
+
+// }
+// catch(err){
+// 	console.log('error in bootstrap')
+// }
 
