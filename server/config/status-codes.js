@@ -1,0 +1,1 @@
+const REQUEST_SUCCESSFUL = 200;
