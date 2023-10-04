@@ -1,12 +1,12 @@
 import express from "express";
 import { sequelize } from "./services/database/db.js";
 import route from './routes/index.js'
-import { user_add } from "./services/database/bootstrap.js";
+import { user_add, user_details } from "./services/database/bootstrap.js";
 
 //Bootstrap
 try{
   sequelize.sync();
-  user_add;
+  user_details();
 }
 catch(err){
   console.log("Bootstap error")
