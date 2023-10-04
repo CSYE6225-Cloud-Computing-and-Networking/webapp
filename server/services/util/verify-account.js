@@ -9,8 +9,7 @@ export const verifyToken= async(req, res, next)=> {
     }  
 
     let bufferObj = Buffer.from(token, "base64");
-  
-    // Encode the Buffer as a utf8 string
+
     let decodedString = bufferObj.toString("utf8");
 
     let [email, password] = decodedString.split(' ')
