@@ -6,7 +6,8 @@ import AccountAssignmentMap from "../../models/Account-Assignment-Map.js";
 import * as fs from "fs";
 import csv from 'csv-parser';
 
-const filePath = 'C:\\cloud\\cloup_app_assignment_2\\webapp\\config\\users.csv';
+const filePath = '../../webapp/config/users.csv';
+
 
 sequelize.sync()
 let users = []
