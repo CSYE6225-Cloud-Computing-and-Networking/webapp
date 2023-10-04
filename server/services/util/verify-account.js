@@ -12,12 +12,8 @@ export const verifyToken= async(req, res, next)=> {
   
     // Encode the Buffer as a utf8 string
     let decodedString = bufferObj.toString("utf8");
-    
-    console.log("The decoded string:", decodedString);
 
     let [email, password] = decodedString.split(' ')
-
-    // console.log('token2----------',email,password)
 
     let account = await Account.findOne({
         where: {
