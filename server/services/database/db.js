@@ -8,6 +8,10 @@ export const sequelize = new Sequelize({
     username: dbConfig.user,
     password: dbConfig.password,
     database: dbConfig.database,
+    define: {
+        timestamps: false
+    },
+    logging: false
 });
 
 // sequelize
