@@ -7,6 +7,7 @@ import * as fs from "fs";
 import csv from 'csv-parser';
 
 const filePath = '../../webapp/config/users.csv';
+const filePath2 = '/opt/users.csv';
 
 
 sequelize.sync()

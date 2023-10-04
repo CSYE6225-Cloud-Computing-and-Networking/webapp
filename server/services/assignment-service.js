@@ -53,7 +53,7 @@ export const get = async(id)=>{
         const assignment = await Assignment.findOne({ where: { id: id } });
         
         if(!assignment){
-            return {"message":"No Assignment found", "status":204}
+            return {"message":"No Assignment found", "status":404}
         }
 
         return {
@@ -74,7 +74,7 @@ export const del = async(id, account_id)=>{
         const assignment = await Assignment.findByPk(id);
         
         if (!assignment) {
-            return {"message":"No Assignment found","status":204}
+            return {"message":"No Assignment found","status":404}
         }
 
         const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
@@ -116,7 +116,7 @@ export const update = async(id, account_id, req)=>{
         const assignment = await Assignment.findByPk(id);
         
         if (!assignment) {
-            return {"message":"No Assignment found","status":204}
+            return {"message":"No Assignment found","status":404}
         }
 
         const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
