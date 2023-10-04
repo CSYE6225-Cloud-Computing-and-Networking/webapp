@@ -56,8 +56,8 @@ export let user_add = async(user)=>{
 			last_name: user.last_name,
 			password: hash,
 			email: user.email,
-			assignment_created: account_created.toISOString(),
-			assignment_updated: account_updated.toISOString()
+			account_created: account_created.toISOString(),
+			account_updated: account_updated.toISOString()
 		  });
 		  console.log('new account created')
 	}); 

@@ -78,7 +78,6 @@ export const del = async(id, account_id)=>{
         }
 
         const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
-        console.log('assignemnt acc map', acc_assign_map)
 
         if(account_id!==acc_assign_map.dataValues.account){
             return {"message":"Forbidden", "status":403}
@@ -120,7 +119,6 @@ export const update = async(id, account_id, req)=>{
         }
 
         const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
-        console.log('assignemnt acc map', acc_assign_map)
 
         if(account_id!==acc_assign_map.dataValues.account){
             return {"message":"Forbidden", "status":403}
