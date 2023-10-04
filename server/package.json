@@ -4,7 +4,7 @@
   "description": "cloud native application",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --force-exit",
     "dev": "nodemon index.js",
     "test-exp": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --force-exit"
   },
@@ -12,12 +12,16 @@
   "type": "module",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/register": "^7.22.15",
     "@types/chai": "^4.3.6",
     "@types/chai-http": "^4.2.0",
     "@types/joi": "^17.2.3",
     "@types/mocha": "^10.0.2",
     "chai": "^4.3.10",
     "chai-http": "^4.4.0",
+    "esm": "^3.2.25",
     "express": "^4.18.2",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1"
