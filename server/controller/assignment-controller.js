@@ -8,8 +8,11 @@ export const create = async(req,res)=>{
 
     try{
         let req_body = req.body 
-        let account_id = 1;
-        let savedAssignment = await assignmentService.save(req_body,account_id)
+
+        let account = req.account
+        let account_id = account.id;
+        console.log('account id',account_id)
+        let savedAssignment = await assignmentService.save(req_body, account.id)
         setResponse(savedAssignment, res, savedAssignment.status)
     }
     catch(err){

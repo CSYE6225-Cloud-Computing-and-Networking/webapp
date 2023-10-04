@@ -3,23 +3,20 @@ import assignmentSchema from "./validations/assignment-validation.js";
 import AccountAssignmentMap from "../models/Account-Assignment-Map.js";
 
 export const save = async (assignment, account_id)=>{
-
-    let account_created = Date.now()
-    let account_updated = Date.now()
+    
+    let account_created = new Date();
+    let account_updated = new Date();
 
     try{
-
         const validationResult = assignmentSchema.validate(assignment);
 
         if (validationResult.error) {
             console.log(validationResult.error.details);
-            return {"message":"Validations"}
-          } else {
-            console.log('Data is valid:', validationResult.value);
-          }
+            return {"message":"Validation Error, send valid request", "status":400}
+        } 
 
         const new_assignment = await Assignment.create({
-            id: account_updated,
+            id: Date.now(),
             name: assignment.name,
             points: assignment.points,
             num_of_attemps: assignment.num_of_attemps,
@@ -28,13 +25,12 @@ export const save = async (assignment, account_id)=>{
             assignment_updated: account_updated.toISOString()
           });
 
-          
           const acc_assign_map = await await AccountAssignmentMap.create({
             account: account_id,
             assignment: new_assignment.id
           });
         
-        return {"message":"Created"}
+        return {"message":"New Assignment Created"}
     }
     catch(err){
         console.log('Error while saving data',err)
@@ -55,6 +51,10 @@ export const get = async(id)=>{
     try{
 
         const assignment = await Assignment.findOne({ where: { id: id } });
+        
+        if(!assignment){
+            return {"message":"No Assignment found"}
+        }
 
         return {
             "name": assignment.dataValues.name, 
@@ -74,7 +74,7 @@ export const del = async(id, account_id)=>{
 
         const assignment = await Assignment.findByPk(id);
         
-        if (assignment === null) {
+        if (!assignment) {
             return {"message":"No Assignment found"}
         }
 
