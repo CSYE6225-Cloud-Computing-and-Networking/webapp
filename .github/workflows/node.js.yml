@@ -14,14 +14,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: mysql
-          MYSQL_DATABASE: cloudDB
-        ports:
-          - 3306:3306
+    # services:
+    #   mysql:
+    #     image: mysql:latest
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: mysql
+    #       MYSQL_DATABASE: cloudDB
+    #     ports:
+    #       - 3306:3306
 
     defaults:
        run:
