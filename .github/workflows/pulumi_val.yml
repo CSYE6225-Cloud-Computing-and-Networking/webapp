@@ -25,5 +25,6 @@ jobs:
       run: packer fmt -check ./scripts/setup.pkr.hcl
     
     - name: Packer validate
-      run: packer validate ./scripts/setup.pkr.hcl
+      working-directory: ./scripts/
+      run: packer validate setup.pkr.hcl
    
