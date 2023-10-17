@@ -22,8 +22,8 @@ jobs:
       run: packer init ./scripts/setup.pkr.hcl
     
     - name: Packer format
-      run: packer fmt -check -on-error=abort ./scripts/setup.pkr.hcl
+      run: packer fmt -check ./scripts/setup.pkr.hcl
     
     - name: Packer validate
-      run: packer validate -on-error=abort ./scripts/setup.pkr.hcl
+      run: packer validate ./scripts/setup.pkr.hcl
    
