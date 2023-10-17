@@ -57,8 +57,8 @@ source "amazon-ebs" "my-ami" {
 build {
   sources = ["source.amazon-ebs.my-ami"]
 
-  provisioner "file"{
-    source = "../server/"
+  provisioner "file" {
+    source      = "../server/"
     destination = "/tmp/"
   }
 
@@ -70,5 +70,4 @@ build {
     script = "init_setup.sh"
   }
 
-  
 }
