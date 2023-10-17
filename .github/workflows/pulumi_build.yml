@@ -21,4 +21,4 @@ jobs:
 					aws-region: us-east-1
       
       - name: Packer build
-				run: packer build -on-error=abort ../../scripts/aws.pkr.hcl
+				run: packer build -on-error=abort ./scripts/aws.pkr.hcl
