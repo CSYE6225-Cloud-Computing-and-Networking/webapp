@@ -19,6 +19,12 @@ sudo mysql -e "FLUSH PRIVILEGES;"
 
 sudo apt-get install unzip -y
 
+sudo mkdir /opt/demo
+sudo unzip /opt/webapp.zip -d /opt/demo/
+
+cd /opt/demo/server
+sudo npm i
+sudo node index.js
 # unzip /temp/webapp.zip -d /temp/
 
 # cd /opt/webapp/server
