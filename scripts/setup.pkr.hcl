@@ -64,6 +64,10 @@ build {
   }
 
   provisioner "shell" {
+    inline = ["sudo mv /tmp/webapp.zip /opt/webapp.zip"]
+  }
+
+  provisioner "shell" {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
       "CHECKPOINT_DISABLE=1"
