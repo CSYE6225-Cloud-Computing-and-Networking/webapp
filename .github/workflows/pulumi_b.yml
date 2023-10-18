@@ -22,6 +22,6 @@ jobs:
     
     - name: Packer build
       working-directory: ./scripts/
-      run: packer build ./scripts/setup.pkr.hcl
+      run: packer build setup.pkr.hcl
 
    
