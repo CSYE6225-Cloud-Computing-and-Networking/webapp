@@ -2,7 +2,7 @@ name: Validate Packer
 
 on:
 	pull_request:
-		types: [completed]
+		types: [closed]
 		branches: [ "main" ]
 
 jobs:
@@ -22,6 +22,6 @@ jobs:
       
 			- name: Packer init
       	run: packer init ./scripts/setup.pkr.hcl
-				
+
       - name: Packer build
 				run: packer build ./scripts/setup.pkr.hcl
