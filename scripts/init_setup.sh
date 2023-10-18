@@ -17,6 +17,9 @@ sudo mysql -e "CREATE USER 'user1'@localhost IDENTIFIED BY 'password1';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'user1'@localhost IDENTIFIED BY 'password1';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
+sudo mysql -e "ALTER USER 'root'@'%' IDENTIFIED BY 'mysql';"
+sudo mysql -e "FLUSH PRIVILEGES;"
+
 sudo apt-get install unzip -y
 
 sudo mkdir /opt/demo

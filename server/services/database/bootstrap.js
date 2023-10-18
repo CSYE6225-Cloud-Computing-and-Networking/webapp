@@ -6,7 +6,7 @@ import AccountAssignmentMap from "../../models/Account-Assignment-Map.js";
 import * as fs from "fs";
 import csv from 'csv-parser';
 
-const filePath = './users.csv';
+const filePath = './services/database/users.csv';
 const filePath2 = '/opt/users.csv';
 
 
