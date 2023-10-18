@@ -20,6 +20,10 @@ sudo mysql -e "FLUSH PRIVILEGES;"
 sudo mysql -e "ALTER USER 'root'@'%' IDENTIFIED BY 'mysql';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
+sudo mysql -u root --skip-password << EOF
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'mysql';
+EOF
+
 sudo apt-get install unzip -y
 
 sudo mkdir /opt/demo
