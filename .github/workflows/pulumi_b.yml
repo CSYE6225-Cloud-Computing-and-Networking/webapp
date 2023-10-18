@@ -29,6 +29,7 @@ jobs:
       run: packer init ./scripts/setup.pkr.hcl
     
     - name: Packer build
-      run: packer build ./scripts/setup.pkr.hcl
+      working-directory: ./scripts/
+      run: packer build setup.pkr.hcl
 
    
