@@ -13,7 +13,7 @@ try{
     await sequelize.sync();
   }
   await sq_call()
-  user_details();
+  // user_details();
 }
 catch(err){
   console.log("Bootstap error")
