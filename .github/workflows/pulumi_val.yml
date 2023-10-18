@@ -21,7 +21,8 @@ jobs:
       run: packer init ./scripts/setup.pkr.hcl
     
     - name: Packer format
-      run: packer fmt -check ./scripts/setup.pkr.hcl
+      working-directory: ./scripts/
+      run: packer fmt -check setup.pkr.hcl
     
     - name: Packer validate
       working-directory: ./scripts/
