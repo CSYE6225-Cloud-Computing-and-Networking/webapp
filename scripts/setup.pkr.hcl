@@ -58,10 +58,10 @@ source "amazon-ebs" "my-ami" {
 build {
   sources = ["source.amazon-ebs.my-ami"]
 
-  # provisioner "file" {
-  #   source      = "../server/"
-  #   destination = "/tmp/"
-  # }
+  provisioner "file" {
+    source      = "webapp.zip"
+    destination = "/tmp/webapp.zip"
+  }
 
   provisioner "shell" {
     environment_vars = [
