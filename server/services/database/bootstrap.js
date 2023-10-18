@@ -16,15 +16,20 @@ let users = []
 export let user_details= async()=>
 {
 	try{
-		fs.createReadStream(filePath).pipe(csv()).on('data', async(data) => {
+		
+	  await new Promise((resolve, reject) => {
+		fs.createReadStream(filePath)
+		  .pipe(csv())
+		  .on('data', async (data) => {
 			users.push(data);
-			await user_add(data)
-	  })
-	  .on('end', () => {
-		// console.log(users);
-	  })
-	  .on('error', (error) => {
-		console.error('Error while parsing CSV:', error);
+			await user_add(data);
+		  })
+		  .on('end', () => {
+			resolve();
+		  })
+		  .on('error', (error) => {
+			reject(error);
+		  });
 	  });
 	}
 	catch(err){
