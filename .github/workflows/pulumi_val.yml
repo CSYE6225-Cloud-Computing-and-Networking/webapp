@@ -20,6 +20,10 @@ jobs:
     - name: Packer init
       run: packer init ./scripts/setup.pkr.hcl
     
+    - name: Zip web app
+      run: |
+        zip -r webapp.zip server/
+    
     - name: Packer format
       working-directory: ./scripts/
       run: packer fmt -check setup.pkr.hcl
