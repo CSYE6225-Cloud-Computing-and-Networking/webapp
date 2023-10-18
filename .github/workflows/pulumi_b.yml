@@ -21,6 +21,10 @@ jobs:
       run: |
         zip -r webapp.zip server/
 
+    - name: list dir
+      run: |
+        ls
+
     - name: Packer init
       run: packer init ./scripts/setup.pkr.hcl
     
