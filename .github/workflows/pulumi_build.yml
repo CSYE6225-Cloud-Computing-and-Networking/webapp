@@ -22,6 +22,10 @@ jobs:
       
 			- name: Packer init
       	run: packer init ./scripts/setup.pkr.hcl
+<<<<<<< HEAD
 
+=======
+				
+>>>>>>> 2793f6c625c1d12df1ac5c6a1b3c31f6807b6108
       - name: Packer build
 				run: packer build ./scripts/setup.pkr.hcl
