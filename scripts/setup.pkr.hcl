@@ -54,7 +54,7 @@ source "amazon-ebs" "my-ami" {
   #   volume_type           = "gp2"
   # }
 }
-
+ada
 build {
   sources = ["source.amazon-ebs.my-ami"]
 
