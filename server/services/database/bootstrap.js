@@ -6,7 +6,7 @@ import AccountAssignmentMap from "../../models/Account-Assignment-Map.js";
 import * as fs from "fs";
 import csv from 'csv-parser';
 
-const filePath = '../../webapp/config/users.csv';
+const filePath = './services/database/users.csv';
 const filePath2 = '/opt/users.csv';
 
 
@@ -16,15 +16,20 @@ let users = []
 export let user_details= async()=>
 {
 	try{
-		fs.createReadStream(filePath).pipe(csv()).on('data', async(data) => {
+		
+	  await new Promise((resolve, reject) => {
+		fs.createReadStream(filePath)
+		  .pipe(csv())
+		  .on('data', async (data) => {
 			users.push(data);
-			await user_add(data)
-	  })
-	  .on('end', () => {
-		// console.log(users);
-	  })
-	  .on('error', (error) => {
-		console.error('Error while parsing CSV:', error);
+			await user_add(data);
+		  })
+		  .on('end', () => {
+			resolve();
+		  })
+		  .on('error', (error) => {
+			reject(error);
+		  });
 	  });
 	}
 	catch(err){

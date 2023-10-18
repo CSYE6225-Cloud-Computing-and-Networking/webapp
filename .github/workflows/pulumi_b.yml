@@ -1,11 +1,13 @@
-name: Validate Packer
+name: Build AMI
 
 on:
   pull_request:
     branches: [ "main" ]
+    types: [closed]
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -16,15 +18,19 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
+    - name: Zip web app
+      run: |
+        zip -r webapp.zip server/
+
+    - name: list dir
+      run: |
+        ls
 
     - name: Packer init
       run: packer init ./scripts/setup.pkr.hcl
     
-    - name: Packer format
+    - name: Packer build
       working-directory: ./scripts/
-      run: packer fmt -check setup.pkr.hcl
-    
-    - name: Packer validate
-      working-directory: ./scripts/
-      run: packer validate setup.pkr.hcl
+      run: packer build setup.pkr.hcl
+
    
