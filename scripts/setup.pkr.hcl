@@ -54,11 +54,11 @@ source "amazon-ebs" "my-ami" {
   #   volume_type           = "gp2"
   # }
 }
-ada
+
 build {
   sources = ["source.amazon-ebs.my-ami"]
 
-  provisioner "file" {
+   provisioner "file" {
     source      = "../webapp.zip"
     destination = "/tmp/webapp.zip"
   }
