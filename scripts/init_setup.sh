@@ -17,6 +17,10 @@ sudo mysql -e "CREATE USER 'user1'@localhost IDENTIFIED BY 'password1';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'user1'@localhost IDENTIFIED BY 'password1';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
+sudo apt-get install unzip -y
+
+unzip /temp/webapp.zip -d /temp/
+
 # cd /opt/webapp/server
 # npm i
 
