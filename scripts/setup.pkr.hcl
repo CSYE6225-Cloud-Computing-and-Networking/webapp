@@ -73,6 +73,4 @@ build {
       "CHECKPOINT_DISABLE=1"
     ]
     script = "init_setup.sh"
-  }
-
-}
+  
