@@ -25,5 +25,5 @@
 
 ### Steps to run test
 - cd server
-- npm run test-exp
+- npm run test-exp.
 
