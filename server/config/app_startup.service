@@ -1,7 +1,7 @@
 [Unit]
 Description=startup for app
 Documentation=https://example.com
-After=cloud-final.service
+After=network.target
 
 [Service]
 EnvironmentFile=/etc/environment
@@ -12,4 +12,4 @@ Restart=on-failure
 WorkingDirectory=/opt/demo/server
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=multi-user.target
