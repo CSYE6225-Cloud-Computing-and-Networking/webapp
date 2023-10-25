@@ -2,6 +2,10 @@ import { Sequelize } from "sequelize";
 import dbConfig from '../../config/db-config.js'
 //import dbConfig from '../../config/db-condig-vm.js'
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 let dialect = process.env.dialect || dbConfig.dialect;
 let host = process.env.host || dbConfig.host;
 let user = process.env.user || dbConfig.user;
