@@ -38,7 +38,7 @@ sudo cp app_startup.service /lib/systemd/system/app_startup.service
 
 sudo systemctl daemon-reload
 sudo systemctl start app_startup
-sudo systemtl enable app_startup
+sudo systemctl enable app_startup
 # sudo node index.js
 # unzip /temp/webapp.zip -d /temp/
 
