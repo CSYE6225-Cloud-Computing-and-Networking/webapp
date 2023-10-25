@@ -31,6 +31,13 @@ sudo unzip /opt/webapp.zip -d /opt/demo/
 
 cd /opt/demo/server
 sudo npm i
+
+cd scripts
+sudo cp app_startup.service /lib/systemd/system/app_startup.service
+
+sudo systemctl daemon-reload
+sudo systemctl start app_startup
+sudo systemtl enable app_startup
 # sudo node index.js
 # unzip /temp/webapp.zip -d /temp/
 

@@ -1,0 +1,15 @@
+[Unit]
+Description=startup for app
+Documentation=https://example.com
+After=network.target
+
+[Service]
+Environment=NODE_PORT=8000
+Type=simple
+User=admin
+ExecStart=/usr/bin/node /opt/demo/server/index.js
+Restart=on-failure
+WorkingDirectory=/opt/demo/server
+
+[Install]
+WantedBy=multi-user.target
