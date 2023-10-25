@@ -4,7 +4,7 @@ Documentation=https://example.com
 After=network.target
 
 [Service]
-Environment=NODE_PORT=8000
+EnvironmentFile=/etc/environment
 Type=simple
 User=appuser
 ExecStart=/usr/bin/node /opt/demo/server/index.js
