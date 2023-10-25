@@ -1,15 +1,15 @@
 [Unit]
 Description=startup for app
 Documentation=https://example.com
-After=cloud-final.service
+After=network.target
 
 [Service]
-Environment=NODE_PORT=8000
+EnvironmentFile=/etc/environment
 Type=simple
-User=admin
+User=appuser
 ExecStart=/usr/bin/node /opt/demo/server/index.js
 Restart=on-failure
 WorkingDirectory=/opt/demo/server
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=multi-user.target
