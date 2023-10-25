@@ -32,7 +32,7 @@ sudo unzip /opt/webapp.zip -d /opt/demo/
 cd /opt/demo/server
 sudo npm i
 
-cd scripts
+cd /opt/demo/server/scripts
 sudo cp app_startup.service /lib/systemd/system/app_startup.service
 
 sudo systemctl daemon-reload
