@@ -34,20 +34,18 @@ sudo npm i
 
 cd /opt/demo/server/config
 ls
+
+sudo useradd -r -s /sbin/nologin appuser
+sudo chown -R appuser:appuser /opt/demo/server
+
 sudo cp app_startup.service /lib/systemd/system/app_startup.service
 
 sudo systemctl daemon-reload
 sudo systemctl start app_startup
 sudo systemctl enable app_startup
 
-sudo groupadd csye6225
-sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225
-sudo cp csye6225.service /etc/systemd/system
-systemctl daemon-reload
-sudo systemctl enable csye6225
-sudo systemctl start csye6225
-sudo systemctl restart csye6225
-sudo systemctl stop csye6225
+
+
 # sudo node index.js
 # unzip /temp/webapp.zip -d /temp/
 
