@@ -1,0 +1,15 @@
+[Unit]
+Description=startup for app
+Documentation=https://example.com
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/environment
+Type=simple
+User=appuser
+ExecStart=/usr/bin/node /opt/demo/server/index.js
+Restart=on-failure
+WorkingDirectory=/opt/demo/server
+
+[Install]
+WantedBy=multi-user.target
