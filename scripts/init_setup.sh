@@ -21,6 +21,9 @@ sudo apt install npm -y
 # EOF
 
 sudo apt-get install unzip -y
+wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
+
+sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 
 sudo mkdir /opt/demo
 sudo unzip /opt/webapp.zip -d /opt/demo/
