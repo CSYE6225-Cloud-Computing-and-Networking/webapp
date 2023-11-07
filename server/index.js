@@ -6,6 +6,7 @@ import { user_add, user_details } from "./services/database/bootstrap.js";
 import Account from "./models/Account.js";
 import Assignment from "./models/Assignment.js";
 import AccountAssignmentMap from "./models/Account-Assignment-Map.js";
+import statsd from 'node-statsd'
 
 //Bootstrap
 try{
@@ -29,6 +30,10 @@ app.use(
     extended: true,
   })
 );
+app.use((req,res,next)=>{
+  req.statsd = statsd;
+  next();
+})
 
 
 route(app)
