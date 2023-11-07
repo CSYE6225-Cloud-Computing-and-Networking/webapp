@@ -56,7 +56,7 @@ app.use((req,res,next)=>{
 })
 app.use((req, res, next) => {     
   logger.info(`Requesting ${req.method} ${req.originalUrl}`);      
-  statsd.increment(`${req.method}_count`);
+  statsd.increment(`${req.method}_${req.originalUrl}_count`);
   next()      
 })
 
