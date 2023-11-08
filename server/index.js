@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 route(app)
 
 app.listen(PORT,()=>{
-    console.log('server is running')
+  logger.info('server is running')
 })
 
 export default app;

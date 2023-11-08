@@ -12,4 +12,4 @@ Restart=on-failure
 WorkingDirectory=/opt/demo/server
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=multi-user.target
