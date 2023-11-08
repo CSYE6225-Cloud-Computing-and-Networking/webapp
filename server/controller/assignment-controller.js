@@ -11,7 +11,7 @@ export const create = async(req,res)=>{
         let req_body = req.body 
         let account = req.account
         let savedAssignment = await assignmentService.save(req_body, account.id)
-        setResponse(savedAssignment, res, savedAssignment.status)
+        setResponse(savedAssignment, res, 201)
     }
     catch(err){
         setError(err,res)

@@ -2,7 +2,9 @@ import Account from '../../models/Account.js'
 import bcrypt from "bcrypt";
 
 export const verifyToken= async(req, res, next)=> {
-    const token = req.headers['authorization'];
+    let token_raw = req.headers['authorization']
+    let token_split = token_raw.split(' ')
+    const token = token_split[1]
 
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
@@ -12,7 +14,7 @@ export const verifyToken= async(req, res, next)=> {
 
     let decodedString = bufferObj.toString("utf8");
 
-    let [email, password] = decodedString.split(' ')
+    let [email, password] = decodedString.split(':')
 
     let account = await Account.findOne({
         where: {
