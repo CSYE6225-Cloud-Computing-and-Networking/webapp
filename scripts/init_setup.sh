@@ -39,8 +39,10 @@ ls
 
 sudo useradd -r -s /sbin/nologin appuser
 sudo chown -R appuser:appuser /opt/demo/server
+pwd
 
 sudo cp app_startup.service /lib/systemd/system/app_startup.service
+ls /lib/systemd/system
 
 sudo systemctl daemon-reload
 sudo systemctl start app_startup
