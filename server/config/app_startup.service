@@ -1,7 +1,8 @@
 [Unit]
 Description=startup for app
 Documentation=https://example.com
-After=network.target
+ConditionPathExists=/opt/user-data
+After=cloud-final.service
 
 [Service]
 EnvironmentFile=/etc/environment
@@ -9,7 +10,9 @@ Type=simple
 User=appuser
 ExecStart=/usr/bin/node /opt/demo/server/index.js
 Restart=on-failure
+StartLimitBurst=2
+StartLimitIntervalSec=20
 WorkingDirectory=/opt/demo/server
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=cloud-init.target
