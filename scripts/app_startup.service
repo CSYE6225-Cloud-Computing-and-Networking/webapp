@@ -1,0 +1,18 @@
+[Unit]
+Description=startup for app
+Documentation=https://example.com
+After=cloud-final.service
+
+[Service]
+EnvironmentFile=/etc/environment
+Type=simple
+User=appuser
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/bin/node /opt/demo/server/index.js
+Restart=on-failure
+StartLimitBurst=2
+StartLimitInterval=20
+WorkingDirectory=/opt/demo/server
+
+[Install]
+WantedBy=multi-user.target

@@ -6,6 +6,27 @@ import { user_add, user_details } from "./services/database/bootstrap.js";
 import Account from "./models/Account.js";
 import Assignment from "./models/Assignment.js";
 import AccountAssignmentMap from "./models/Account-Assignment-Map.js";
+import Statsd from 'node-statsd'
+import { createLogger, transports, format } from "winston";
+
+let statsd = new Statsd();
+
+//logger setup
+const logger = createLogger({
+  transports: [new transports.File({
+    filename: 'webapp.log',
+  }),],
+  format: format.combine(
+    format.colorize(),
+    format.timestamp(),
+    format.printf(({ timestamp, level, message }) => {
+      return `[${timestamp}] ${level}: ${message}`;
+    })
+  ),
+});
+
+
+
 
 //Bootstrap
 try{
@@ -29,12 +50,21 @@ app.use(
     extended: true,
   })
 );
+app.use((req,res,next)=>{
+  req.statsd = statsd;
+  next();
+})
+app.use((req, res, next) => {     
+  logger.info(`Requesting ${req.method} ${req.originalUrl}`);      
+  statsd.increment(`${req.method}_${req.originalUrl}_count`);
+  next()      
+})
 
 
 route(app)
 
 app.listen(PORT,()=>{
-    console.log('server is running')
+  logger.info('server is running')
 })
 
 export default app;
