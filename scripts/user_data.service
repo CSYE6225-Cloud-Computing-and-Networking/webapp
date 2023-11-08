@@ -1,8 +1,6 @@
 [Unit]
-Description=startup for app
-Documentation=https://example.com
-ConditionPathExists=/opt/user-data
-After=cloud-final.service
+Description=wait for user data
+ConditionPathExists=/var/user-data-complete
 
 [Service]
 EnvironmentFile=/etc/environment
@@ -16,4 +14,4 @@ StartLimitInterval=20
 WorkingDirectory=/opt/demo/server
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=cloud-init.target
