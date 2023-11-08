@@ -1,17 +1,16 @@
 [Unit]
-Description=startup for app
-Documentation=https://example.com
-ConditionPathExists=/opt/user-data
-After=cloud-final.service
+Description=wait for user data
+ConditionPathExists=/var/user-data-complete
 
 [Service]
 EnvironmentFile=/etc/environment
 Type=simple
 User=appuser
+ExecStartPre=/bin/sleep 5
 ExecStart=/usr/bin/node /opt/demo/server/index.js
 Restart=on-failure
 StartLimitBurst=2
-StartLimitIntervalSec=20
+StartLimitInterval=20
 WorkingDirectory=/opt/demo/server
 
 [Install]
