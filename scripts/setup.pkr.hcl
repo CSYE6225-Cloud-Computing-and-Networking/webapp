@@ -68,12 +68,21 @@ build {
     destination = "/tmp/config.json"
   }
 
+  provisioner "file" {
+    source      = "app_startup.service"
+    destination = "/tmp/app_startup.service"
+  }
+
   provisioner "shell" {
     inline = ["sudo mv /tmp/webapp.zip /opt/webapp.zip"]
   }
 
   provisioner "shell" {
     inline = ["sudo mv /tmp/config.json /opt/config.json"]
+  }
+
+  provisioner "shell" {
+    inline = ["sudo mv /tmp/app_startup.service /opt/app_startup.service"]
   }
 
   provisioner "shell" {
