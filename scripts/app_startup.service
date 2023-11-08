@@ -9,6 +9,8 @@ Type=simple
 User=appuser
 ExecStart=/usr/bin/node /opt/demo/server/index.js
 Restart=on-failure
+StartLimitBurst=2
+StartLimitInterval=20
 WorkingDirectory=/opt/demo/server
 
 [Install]
