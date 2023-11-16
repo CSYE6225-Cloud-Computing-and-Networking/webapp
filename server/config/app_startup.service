@@ -1,7 +1,6 @@
 [Unit]
 Description=startup for app
 Documentation=https://example.com
-ConditionPathExists=/opt/user-data
 After=cloud-final.service
 
 [Service]
