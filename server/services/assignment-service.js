@@ -1,6 +1,7 @@
 import Assignment from "../models/Assignment.js";
 import assignmentSchema from "./validations/assignment-validation.js";
 import AccountAssignmentMap from "../models/Account-Assignment-Map.js";
+import { v4 as uuid } from 'uuid';
 
 export const save = async (assignment, account_id)=>{
     
@@ -16,7 +17,7 @@ export const save = async (assignment, account_id)=>{
         } 
 
         const new_assignment = await Assignment.create({
-            id: Date.now(),
+            id: uuid(),
             name: assignment.name,
             points: assignment.points,
             num_of_attemps: assignment.num_of_attemps,
@@ -30,7 +31,7 @@ export const save = async (assignment, account_id)=>{
             assignment: new_assignment.id
           });
         
-        return {"message":"New Assignment Created"}
+        return new_assignment
     }
     catch(err){
         console.log('Error while saving data',err)
@@ -57,10 +58,13 @@ export const get = async(id)=>{
         }
 
         return {
+            "id":assignment.dataValues.id,
             "name": assignment.dataValues.name, 
             "points": assignment.dataValues.points, 
             "num_of_attemps": assignment.dataValues.num_of_attemps,
             "deadline": assignment.dataValues.deadline, 
+            "assignment_created": assignment.dataValues.assignment_created,
+            "assignment_updated": assignment.dataValues.assignment_updated,
         }
     }
     catch(err){
@@ -103,6 +107,49 @@ export const del = async(id, account_id)=>{
 }
 
 export const update = async(id, account_id, req)=>{
+
+    try{
+        const validationResult = assignmentSchema.validate(req);
+
+        if (validationResult.error) {
+            console.log(validationResult.error.details);
+            return {"message":"Validation Error, send valid request", "status":400}
+        } 
+
+        const assignment = await Assignment.findByPk(id);
+        
+        if (!assignment) {
+            return {"message":"No Assignment found","status":404}
+        }
+
+        const acc_assign_map = await AccountAssignmentMap.findOne({ where: { assignment: id } })
+
+        if(account_id!==acc_assign_map.dataValues.account){
+            return {"message":"Forbidden", "status":403}
+        }
+
+        let account_updated = new Date();
+        const updated_assignment = await Assignment.update(
+            {
+                name: req.name,
+                points: req.points,
+                num_of_attemps: req.num_of_attemps,
+                deadline: req.deadline,
+                assignment_updated: account_updated.toISOString()
+            },
+            {
+              where: { id: assignment.id },
+            }
+        );
+
+        return {"message":"Assignment updated", "status":200}
+    }
+    catch(err){
+        console.log('Error while updating data',err)
+    }
+}
+
+export const submission = async(id, account_id, req)=>{
 
     try{
         const validationResult = assignmentSchema.validate(req);
