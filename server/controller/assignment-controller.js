@@ -77,8 +77,11 @@ export const update = async (req,res)=>{
 export const submission = async(req, res)=>{
     try{
         let id = req.params.id
-        logger.info('The submission id is',id);
-        setResponse(assignment, res, assignment.status)
+        let req_body = req.body 
+        let account = req.account
+
+        let submission = await assignmentService.submission(id, account.id, req_body)
+        setResponse(submission, res, submission.status)
     }
     catch(err){
         setError(err,res)
