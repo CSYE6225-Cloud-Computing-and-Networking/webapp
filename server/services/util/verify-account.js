@@ -3,6 +3,11 @@ import bcrypt from "bcrypt";
 
 export const verifyToken= async(req, res, next)=> {
     let token_raw = req.headers['authorization']
+
+    if (!token_raw) {
+        return res.status(401).json({ message: 'No token provided' });
+    }  
+
     let token_split = token_raw.split(' ')
     const token = token_split[1]
 

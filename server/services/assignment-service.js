@@ -1,6 +1,10 @@
 import Assignment from "../models/Assignment.js";
 import assignmentSchema from "./validations/assignment-validation.js";
+import submissionSchema from "./validations/submission-validation.js";
 import AccountAssignmentMap from "../models/Account-Assignment-Map.js";
+import AssignmentSubmissiontMap from "../models/Assignment-Submission.js";
+import { v4 as uuid } from 'uuid';
+import Submission from "../models/Submission.js";
 
 export const save = async (assignment, account_id)=>{
     
@@ -16,7 +20,7 @@ export const save = async (assignment, account_id)=>{
         } 
 
         const new_assignment = await Assignment.create({
-            id: Date.now(),
+            id: uuid(),
             name: assignment.name,
             points: assignment.points,
             num_of_attemps: assignment.num_of_attemps,
@@ -30,7 +34,7 @@ export const save = async (assignment, account_id)=>{
             assignment: new_assignment.id
           });
         
-        return {"message":"New Assignment Created"}
+        return new_assignment
     }
     catch(err){
         console.log('Error while saving data',err)
@@ -57,10 +61,13 @@ export const get = async(id)=>{
         }
 
         return {
+            "id":assignment.dataValues.id,
             "name": assignment.dataValues.name, 
             "points": assignment.dataValues.points, 
             "num_of_attemps": assignment.dataValues.num_of_attemps,
             "deadline": assignment.dataValues.deadline, 
+            "assignment_created": assignment.dataValues.assignment_created,
+            "assignment_updated": assignment.dataValues.assignment_updated,
         }
     }
     catch(err){
@@ -142,5 +149,74 @@ export const update = async(id, account_id, req)=>{
     }
     catch(err){
         console.log('Error while updating data',err)
+    }
+}
+
+export const submission = async(id, account_id, req)=>{
+
+    try{
+        let time = new Date()
+        const validationResult = submissionSchema.validate(req)
+
+        if (validationResult.error) {
+            console.log(validationResult.error.details);
+            return {"message":"Validation Error, send valid request", "status":400}
+        } 
+
+        const assignment = await Assignment.findByPk(id);
+        
+        if (!assignment) {
+            return {"message":"No Assignment found","status":404}
+        }
+
+        let deadline = assignment.dataValues.deadline
+        let retry_attempts = assignment.dataValues.num_of_attemps
+
+        let submission_time = new Date();
+
+        let submission_attempt = await AssignmentSubmissiontMap.count({
+            where: {
+              account: account_id,
+              assignment:  id
+            },
+        });
+
+        console.log('submission attempt',submission_attempt)
+
+        console.log('submission time',submission_time)
+        console.log('deadline', new Date(deadline))
+
+        if(submission_time > new Date(deadline)){
+            console.log('deadline exceeded')
+            return {"message":"deadline exceeded", "status":400}
+        }
+
+        if(submission_attempt >= retry_attempts){
+            console.log('attempt exceeded')
+            return {"message":"attempt exceeded", "status":400}
+        }
+
+        const new_submission = await Submission.create({
+            id: uuid(),
+            assignment_id: id,
+            submission_url: req.submission_url,
+            submission_date: time.toISOString(),
+            submission_updated: time.toISOString(),
+        });
+
+        // console.log('new sub ', new_submission)
+
+        const assign_sub_map = await AssignmentSubmissiontMap.create({
+            account: account_id,
+            assignment: id,
+            submission: new_submission.id
+        });
+
+        // console.log('sub assign map',assign_sub_map)
+
+        return {"message":"Assignment submitted", "status":200}
+    }
+    catch(err){
+        console.log('Error while submitting assignment',err)
     }
 }

@@ -3,6 +3,8 @@ import { setError, setResponse } from "../services/util/response.js";
 import { sequelize } from "../services/database/db.js";
 
 import * as assignmentService from "../services/assignment-service.js"
+import logger from "./util/logger.js";
+import { v4 as uuid } from 'uuid';
 
 export const create = async(req,res)=>{
 
@@ -35,6 +37,7 @@ export const get = async (req,res)=>{
     try{
         req.statsd.increment('assignment.route.get');
         let assignment  =  await assignmentService.get(id)
+        console.log('assignment info')
         setResponse(assignment, res, assignment.status)
     }
     catch(err){
@@ -65,6 +68,20 @@ export const update = async (req,res)=>{
         req.statsd.increment('assignment.route.update');
         let assignment  =  await assignmentService.update(id, account.id, req_body)
         setResponse(assignment, res, assignment.status)
+    }
+    catch(err){
+        setError(err,res)
+    }
+}
+
+export const submission = async(req, res)=>{
+    try{
+        let id = req.params.id
+        let req_body = req.body 
+        let account = req.account
+
+        let submission = await assignmentService.submission(id, account.id, req_body)
+        setResponse(submission, res, submission.status)
     }
     catch(err){
         setError(err,res)

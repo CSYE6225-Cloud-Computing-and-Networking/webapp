@@ -9,6 +9,7 @@ router.get('/v1/assignment/:id', verifyToken, assignmentController.get )
 router.post('/v1/assignment', verifyToken, assignmentController.create);
 router.put('/v1/assignment/:id', verifyToken, assignmentController.update)
 router.delete('/v1/assignment/:id', verifyToken, assignmentController.del)
+router.post('/v1/assignment/:id/submission', verifyToken, assignmentController.submission)
 
 router.all('/v1/assignment',(req,res)=>{
     res.set('Cache-control', `no-store`)

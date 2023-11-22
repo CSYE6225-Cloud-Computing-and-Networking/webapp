@@ -8,22 +8,24 @@ import Assignment from "./models/Assignment.js";
 import AccountAssignmentMap from "./models/Account-Assignment-Map.js";
 import Statsd from 'node-statsd'
 import { createLogger, transports, format } from "winston";
+import logger from "./controller/util/logger.js";
 
 let statsd = new Statsd();
 
-//logger setup
-const logger = createLogger({
-  transports: [new transports.File({
-    filename: 'webapp.log',
-  }),],
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(({ timestamp, level, message }) => {
-      return `[${timestamp}] ${level}: ${message}`;
-    })
-  ),
-});
+
+// //logger setup
+// const logger = createLogger({
+//   transports: [new transports.File({
+//     filename: 'webapp.log',
+//   }),],
+//   format: format.combine(
+//     format.colorize(),
+//     format.timestamp(),
+//     format.printf(({ timestamp, level, message }) => {
+//       return `[${timestamp}] ${level}: ${message}`;
+//     })
+//   ),
+// });
 
 
 
