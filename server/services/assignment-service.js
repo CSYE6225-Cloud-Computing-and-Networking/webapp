@@ -5,6 +5,7 @@ import AccountAssignmentMap from "../models/Account-Assignment-Map.js";
 import AssignmentSubmissiontMap from "../models/Assignment-Submission.js";
 import { v4 as uuid } from 'uuid';
 import Submission from "../models/Submission.js";
+import { SNSClient, ListTopicsCommand, PublishCommand  } from "@aws-sdk/client-sns";
 
 export const save = async (assignment, account_id)=>{
     
@@ -213,6 +214,30 @@ export const submission = async(id, account_id, req)=>{
         });
 
         // console.log('sub assign map',assign_sub_map)
+
+        //send sns noti
+
+        let reg = process.env.reg || "us-east-1"
+        const snsClient  = new SNSClient({ region: reg});
+
+        const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:snsTopic-49594ca"
+
+        const publish = async (
+            message = "Hello from SNS!",
+            topicArn = snsTopic,
+          ) => {
+            const response = await snsClient.send(
+              new PublishCommand({
+                Message: message,
+                TopicArn: topicArn,
+              }),
+            );
+            console.log(response);
+
+            return response;
+          };
+        
+          publish(req.submission_url)
 
         return {"message":"Assignment submitted", "status":200}
     }
