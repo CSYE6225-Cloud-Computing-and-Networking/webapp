@@ -27,6 +27,7 @@
     "nodemon": "^3.0.1"
   },
   "dependencies": {
+    "@aws-sdk/client-sns": "^3.461.0",
     "@types/node-statsd": "^0.1.5",
     "@types/uuid": "^9.0.7",
     "bcrypt": "^5.1.1",
