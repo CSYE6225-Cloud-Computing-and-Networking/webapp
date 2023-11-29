@@ -242,7 +242,8 @@ export const submission = async(id, account_id, req, account)=>{
             return response;
           };
 
-          let pubMsg = sub_url+','+account.email
+          let pubMsg = account.email+','+sub_url
+          publish(pubMsg)
 
         return {"message":"Assignment submitted", "status":200}
     }
