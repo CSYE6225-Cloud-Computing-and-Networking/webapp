@@ -245,7 +245,8 @@ export const submission = async(id, account_id, req, account)=>{
           let pubMsg = account.email+','+sub_url
           publish(pubMsg)
 
-        return {"message":"Assignment submitted", "status":200}
+        // return {"message":"Assignment submitted", "status":200}
+        return new_submission
     }
     catch(err){
         console.log('Error while submitting assignment',err)
