@@ -6,6 +6,9 @@ import AssignmentSubmissiontMap from "../models/Assignment-Submission.js";
 import { v4 as uuid } from 'uuid';
 import Submission from "../models/Submission.js";
 import { SNSClient, ListTopicsCommand, PublishCommand  } from "@aws-sdk/client-sns";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const save = async (assignment, account_id)=>{
     
@@ -220,7 +223,7 @@ export const submission = async(id, account_id, req)=>{
         let reg = process.env.reg || "us-east-1"
         const snsClient  = new SNSClient({ region: reg});
 
-        const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:snsTopic-49594ca"
+        const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:testTopic"
 
         const publish = async (
             message = "Hello from SNS!",
@@ -232,7 +235,7 @@ export const submission = async(id, account_id, req)=>{
                 TopicArn: topicArn,
               }),
             );
-            console.log(response);
+            // console.log(response);
 
             return response;
           };
