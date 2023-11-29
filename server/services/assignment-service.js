@@ -158,6 +158,9 @@ export const update = async(id, account_id, req)=>{
 
 export const submission = async(id, account_id, req, account)=>{
 
+    let sub_url = req.submission_url
+    console.log('sub_url',sub_url)
+
     try{
         let time = new Date()
         const validationResult = submissionSchema.validate(req)
@@ -208,8 +211,6 @@ export const submission = async(id, account_id, req, account)=>{
             submission_updated: time.toISOString(),
         });
 
-        // console.log('new sub ', new_submission)
-
         const assign_sub_map = await AssignmentSubmissiontMap.create({
             account: account_id,
             assignment: id,
@@ -224,6 +225,8 @@ export const submission = async(id, account_id, req, account)=>{
         const snsClient  = new SNSClient({ region: reg});
 
         const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:testTopic"
+    //    const snsTopic =  `arn:aws:sns:us-east-1:995720948536:snsTopic-9b6ed5b`
+        console.log('the snstopic', snsTopic)
 
         const publish = async (
             message = "Hello from SNS!",
@@ -235,13 +238,11 @@ export const submission = async(id, account_id, req, account)=>{
                 TopicArn: topicArn,
               }),
             );
-            // console.log(response);
 
             return response;
           };
 
-          let pubMsg = req.submission_url+','+account.email
-          publish(pubMsg)
+          let pubMsg = sub_url+','+account.email
 
         return {"message":"Assignment submitted", "status":200}
     }
