@@ -80,7 +80,7 @@ export const submission = async(req, res)=>{
         let req_body = req.body 
         let account = req.account
 
-        let submission = await assignmentService.submission(id, account.id, req_body)
+        let submission = await assignmentService.submission(id, account.id, req_body, account)
         setResponse(submission, res, submission.status)
     }
     catch(err){

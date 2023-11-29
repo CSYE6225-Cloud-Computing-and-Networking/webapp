@@ -156,7 +156,7 @@ export const update = async(id, account_id, req)=>{
     }
 }
 
-export const submission = async(id, account_id, req)=>{
+export const submission = async(id, account_id, req, account)=>{
 
     try{
         let time = new Date()
@@ -239,8 +239,9 @@ export const submission = async(id, account_id, req)=>{
 
             return response;
           };
-        
-          publish(req.submission_url)
+
+          let pubMsg = req.submission_url+','+account.email
+          publish(pubMsg)
 
         return {"message":"Assignment submitted", "status":200}
     }
