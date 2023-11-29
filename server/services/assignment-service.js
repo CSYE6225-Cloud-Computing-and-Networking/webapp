@@ -195,12 +195,12 @@ export const submission = async(id, account_id, req, account)=>{
 
         if(submission_time > new Date(deadline)){
             console.log('deadline exceeded')
-            return {"message":"deadline exceeded", "status":400}
+            return {"message":"deadline exceeded", "status":403}
         }
 
         if(submission_attempt >= retry_attempts){
             console.log('attempt exceeded')
-            return {"message":"attempt exceeded", "status":400}
+            return {"message":"attempt exceeded", "status":403}
         }
 
         const new_submission = await Submission.create({
