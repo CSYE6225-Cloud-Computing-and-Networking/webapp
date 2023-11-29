@@ -224,8 +224,8 @@ export const submission = async(id, account_id, req, account)=>{
         let reg = process.env.reg || "us-east-1"
         const snsClient  = new SNSClient({ region: reg});
 
-        const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:testTopic"
-    //    const snsTopic =  `arn:aws:sns:us-east-1:995720948536:snsTopic-9b6ed5b`
+        // const snsTopic = process.env.snsTopic || "arn:aws:sns:us-east-1:995720948536:testTopic"
+       const snsTopic =  `arn:aws:sns:us-east-1:995720948536:snsTopic-9b6ed5b`
         console.log('the snstopic', snsTopic)
 
         const publish = async (
@@ -242,7 +242,8 @@ export const submission = async(id, account_id, req, account)=>{
             return response;
           };
 
-          let pubMsg = sub_url+','+account.email
+          let pubMsg = account.email+','+sub_url
+          publish(pubMsg)
 
         return {"message":"Assignment submitted", "status":200}
     }
