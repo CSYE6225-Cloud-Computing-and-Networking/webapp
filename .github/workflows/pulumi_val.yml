@@ -35,6 +35,7 @@ jobs:
     - name: template update
       run: |
        new_ami_id=$(aws ec2 describe-images --filters "Name=name,Values=csye*" "Name=state,Values=available" --query "sort_by(Images, &CreationDate)[-1].ImageId" --output text)
+       echo "AMI ID: $new_ami_id"
     
     - name: ami display
       run: |
