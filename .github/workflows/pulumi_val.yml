@@ -38,5 +38,5 @@ jobs:
     
     - name: ami display
       run: |
-        echo "AMI ID: $new_ami_id
+        echo "AMI ID: $new_ami_id"
    
