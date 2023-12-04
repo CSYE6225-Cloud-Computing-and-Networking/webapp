@@ -26,3 +26,8 @@
 ### Steps to run test
 - cd server
 - npm run test-exp.
+
+### Command to import certificate
+- $ aws acm import-certificate --certificate fileb://Certificate.pem \
+      --certificate-chain fileb://CertificateChain.pem \
+      --private-key fileb://PrivateKey.pem 	
