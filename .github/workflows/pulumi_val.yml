@@ -31,5 +31,4 @@ jobs:
     - name: Packer validate
       working-directory: ./scripts/
       run: packer validate setup.pkr.hcl
-    
    
