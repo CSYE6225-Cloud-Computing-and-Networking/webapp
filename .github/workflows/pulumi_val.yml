@@ -39,7 +39,9 @@ jobs:
        launch_template_id=$(aws ec2 describe-launch-templates --filters "Name=launch-template-name,Values=appLaunch*" --query "LaunchTemplates[0].LaunchTemplateId" --output text)
        echo "Launch Template ID: $launch_template_id"
        aws ec2 create-launch-template-version --launch-template-id "$launch_template_id" --source-version \$Latest --version-description "New version with updated AMI" --launch-template-data "{\"ImageId\":\"$new_ami_id\"}"
-       aws autoscaling start-instance-refresh --auto-scaling-group-name "asg-*"
+       ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[0].AutoScalingGroupName" --output text)
+       echo "ASG ID :$ASG_NAME"
+       aws autoscaling start-instance-refresh --auto-scaling-group-name "$ASG_NAME"
     - name: ami display
       run: |
         echo "AMI ID: $new_ami_id"
