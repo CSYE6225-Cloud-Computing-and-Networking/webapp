@@ -36,7 +36,10 @@ jobs:
       run: |
        new_ami_id=$(aws ec2 describe-images --filters "Name=name,Values=csye*" "Name=state,Values=available" --query "sort_by(Images, &CreationDate)[-1].ImageId" --output text)
        echo "AMI ID: $new_ami_id"
-    
+       launch_template_id=$(aws ec2 describe-launch-templates --filters "Name=launch-template-name,Values=Webapp-Server-lt" --query "LaunchTemplates[0].LaunchTemplateId" --output text)
+       echo "Launch Template ID: $launch_template_id"
+       aws ec2 create-launch-template-version --launch-template-id "$launch_template_id" --source-version \$Latest --version-description "New version with updated AMI" --launch-template-data "{\"ImageId\":\"$new_ami_id\"}"
+       aws autoscaling start-instance-refresh --auto-scaling-group-name "webapp_asg"
     - name: ami display
       run: |
         echo "AMI ID: $new_ami_id"
