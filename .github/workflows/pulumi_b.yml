@@ -32,5 +32,29 @@ jobs:
     - name: Packer build
       working-directory: ./scripts/
       run: packer build setup.pkr.hcl
+    
+    - name: template update
+      run: |
+       new_ami_id=$(aws ec2 describe-images --filters "Name=name,Values=csye*" "Name=state,Values=available" --query "sort_by(Images, &CreationDate)[-1].ImageId" --output text)
+       echo "AMI ID: $new_ami_id"
+       launch_template_id=$(aws ec2 describe-launch-templates --filters "Name=launch-template-name,Values=appLaunch*" --query "LaunchTemplates[0].LaunchTemplateId" --output text)
+       echo "Launch Template ID: $launch_template_id"
+       aws ec2 create-launch-template-version --launch-template-id "$launch_template_id" --source-version \$Latest --version-description "New version with updated AMI" --launch-template-data "{\"ImageId\":\"$new_ami_id\"}"
+       ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[0].AutoScalingGroupName" --output text)
+       echo "ASG ID :$ASG_NAME"
+       aws autoscaling start-instance-refresh --auto-scaling-group-name "$ASG_NAME"
+       while true; do
+        STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name "$ASG_NAME" --query 'InstanceRefreshes[0].Status' --output text)
+        if [ "$STATUS" == "Successful" ]; then
+            echo "Instance refresh completed successfully."
+            break
+        elif [ "$STATUS" == "Failed" ]; then
+            echo "Instance refresh failed."
+            break
+        else
+            echo "Waiting for the instance refresh to complete. Current status: $STATUS"
+            sleep 12 
+        fi
+        done
 
    
