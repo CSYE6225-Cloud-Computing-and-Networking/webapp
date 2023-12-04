@@ -42,5 +42,5 @@ jobs:
        aws autoscaling start-instance-refresh --auto-scaling-group-name "webapp_asg"
     - name: ami display
       run: |
-        echo "AMI ID: $new_ami_id   "
+        echo "AMI ID: $new_ami_id"
    
