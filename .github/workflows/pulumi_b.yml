@@ -32,6 +32,13 @@ jobs:
     - name: Packer build
       working-directory: ./scripts/
       run: packer build setup.pkr.hcl
+
+    - name: AWS config
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEMO }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
+        aws-region: us-east-1
     
     - name: template update
       run: |
@@ -40,6 +47,7 @@ jobs:
        launch_template_id=$(aws ec2 describe-launch-templates --filters "Name=launch-template-name,Values=appLaunch*" --query "LaunchTemplates[0].LaunchTemplateId" --output text)
        echo "Launch Template ID: $launch_template_id"
        aws ec2 create-launch-template-version --launch-template-id "$launch_template_id" --source-version \$Latest --version-description "New version with updated AMI" --launch-template-data "{\"ImageId\":\"$new_ami_id\"}"
+       aws ec2 modify-launch-template --launch-template-id "$launch_template_id" --default-version "$Latest"
        ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[0].AutoScalingGroupName" --output text)
        echo "ASG ID :$ASG_NAME"
        aws autoscaling start-instance-refresh --auto-scaling-group-name "$ASG_NAME"
