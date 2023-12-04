@@ -52,7 +52,7 @@ jobs:
             break
         else
             echo "Waiting for the instance refresh to complete. Current status: $STATUS"
-            sleep 10  
+            sleep 12 
         fi
         done
     - name: ami display
