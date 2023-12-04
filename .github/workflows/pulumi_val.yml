@@ -32,6 +32,13 @@ jobs:
       working-directory: ./scripts/
       run: packer validate setup.pkr.hcl
     
+    - name: AWS config
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEMO }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
+        aws-region: us-east-1
+    
     - name: template update
       run: |
        new_ami_id=$(aws ec2 describe-images --filters "Name=name,Values=csye*" "Name=state,Values=available" --query "sort_by(Images, &CreationDate)[-1].ImageId" --output text)
