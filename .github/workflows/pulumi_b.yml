@@ -29,9 +29,9 @@ jobs:
     - name: Packer init
       run: packer init ./scripts/setup.pkr.hcl
     
-    - name: Packer build
-      working-directory: ./scripts/
-      run: packer build setup.pkr.hcl
+    # - name: Packer build
+    #   working-directory: ./scripts/
+    #   run: packer build setup.pkr.hcl
 
     - name: AWS config
       uses: aws-actions/configure-aws-credentials@v1
@@ -62,6 +62,7 @@ jobs:
             break
         elif [ "$STATUS" == "Failed" ]; then
             echo "Instance refresh failed."
+            return 1
             break
         else
             echo "Waiting for the instance refresh to complete. Current status: $STATUS"
